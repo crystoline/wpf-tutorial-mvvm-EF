@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="crystoModel2" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Group">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="StaffGroups" Relationship="Self.FK__StaffGrou__Group__37A5467C" FromRole="Groups" ToRole="StaffGroup" />
+  </EntityType>
+  <EntityType Name="Staff">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="OtherNames" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Dob" Type="DateTime" Precision="0" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="StaffGroups" Relationship="Self.FK__StaffGrou__Staff__38996AB5" FromRole="Staff" ToRole="StaffGroup" />
+  </EntityType>
+  <EntityType Name="StaffGroup">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="GroupId" Type="Int32" />
+    <Property Name="StaffId" Type="Int32" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Group" Relationship="Self.FK__StaffGrou__Group__37A5467C" FromRole="StaffGroup" ToRole="Groups" />
+    <NavigationProperty Name="Staff" Relationship="Self.FK__StaffGrou__Staff__38996AB5" FromRole="StaffGroup" ToRole="Staff" />
+  </EntityType>
+  <Association Name="FK__StaffGrou__Group__37A5467C">
+    <End Role="Groups" Type="Self.Group" Multiplicity="0..1" />
+    <End Role="StaffGroup" Type="Self.StaffGroup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Groups">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StaffGroup">
+        <PropertyRef Name="GroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__StaffGrou__Staff__38996AB5">
+    <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+    <End Role="StaffGroup" Type="Self.StaffGroup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Staff">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StaffGroup">
+        <PropertyRef Name="StaffId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="crystoEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Groups" EntityType="Self.Group" />
+    <EntitySet Name="Staffs" EntityType="Self.Staff" />
+    <EntitySet Name="StaffGroups" EntityType="Self.StaffGroup" />
+    <AssociationSet Name="FK__StaffGrou__Group__37A5467C" Association="Self.FK__StaffGrou__Group__37A5467C">
+      <End Role="Groups" EntitySet="Groups" />
+      <End Role="StaffGroup" EntitySet="StaffGroups" />
+    </AssociationSet>
+    <AssociationSet Name="FK__StaffGrou__Staff__38996AB5" Association="Self.FK__StaffGrou__Staff__38996AB5">
+      <End Role="Staff" EntitySet="Staffs" />
+      <End Role="StaffGroup" EntitySet="StaffGroups" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
